@@ -1,5 +1,6 @@
-"use strict"
-const Contador = (function() {
+"use strict";
+var App = App || {};
+App.Contador = (function() {
     function Contador(relogio) {
         this.START = 25;
         this._minutes = this.START;
@@ -47,6 +48,6 @@ const Contador = (function() {
 (($) => {
     const relogio = $('#tempo');
     const command = $('#command');
-    const contar = new Contador(relogio);
+    const contar = new App.Contador(relogio);
     command.addEventListener('click', () => contar.activity());
 })(document.querySelector.bind(document));
