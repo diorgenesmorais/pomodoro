@@ -28,14 +28,17 @@ App.Contador = (function() {
     }
     Contador.prototype.decrease = function() {
         this.setMinutes(-1);
+        if (this._observer) {
+            this._observer.update(this.getMinutes());
+        }
         return this.getMinuteFormatted();
     }
+    function exibir() {
+        this._relogio.textContent = this.decrease();
+    }
     Contador.prototype.start = function() {
-        const _this = this;
         this.setPause(false);
-        this.intervalID = setInterval(function() {
-            _this._relogio.textContent = _this.decrease();
-        }, 1000);
+        this.intervalID = setInterval(exibir.bind(this), 1000);
     }
     Contador.prototype.stop = function() {
         this.setPause(true);
@@ -45,6 +48,9 @@ App.Contador = (function() {
     }
     Contador.prototype.activity = function() {
         this.isPaused() ? this.start() : this.stop();
+    }
+    Contador.prototype.bind = function(observer) {
+        this._observer = observer;
     }
     return Contador;
 }());
