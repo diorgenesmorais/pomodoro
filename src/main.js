@@ -11,6 +11,10 @@ App.Contador = (function() {
         return this._minutes;
     }
     Contador.prototype.setMinutes = function(value) {
+        if (this._minutes === 0) {
+            value = this.START;
+            this.stop();
+        }
         this._minutes += value;
     }
     Contador.prototype.isPaused = function() {
