@@ -29,7 +29,7 @@ App.Contador = (function() {
     Contador.prototype.decrease = function() {
         this.setMinutes(-1);
         if (this._observer) {
-            this._observer.update(this.getMinutes());
+            this._observer.update(this.getMinutes(), this.START);
         }
         return this.getMinuteFormatted();
     }
