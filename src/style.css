@@ -13,13 +13,31 @@ body {
     height: 400px;
     position: absolute;
     top: 20%;
-    border: 4px solid blue;
+    border: 4px solid #6e5bf8;
     border-radius: 15px;
+}
+.app-name {
+  text-align: center;
+  color: #6e5bf8;
 }
 .control {
     position: absolute;
     top: 80%;
-    left: 37%;
+    left: 40%;
+}
+.js-iniciar, .js-pausar {
+  width: 48px;
+  height: 48px;
+  background-color: #6e5bf8;
+  background-repeat: no-repeat;
+  background-size: 48px;
+  border-radius: 24px;
+}
+.js-iniciar {
+    background-image: url('./images/Play.png');
+}
+.js-pausar {
+    background-image: url('./images/Pausar.png');
 }
 .progress {
     width: 200px;

@@ -22,6 +22,9 @@ App.Contador = (function() {
     }
     Contador.prototype.setPause = function(status) {
         this._pause = status;
+        if (this._observer) {
+            this._observer.status(this.getStatusText());
+        }
     }
     Contador.prototype.getMinuteFormatted = function() {
         return this.getMinutes() < 10 ? "0" + this.getMinutes() : this.getMinutes();
@@ -38,7 +41,7 @@ App.Contador = (function() {
     }
     Contador.prototype.start = function() {
         this.setPause(false);
-        this.intervalID = setInterval(exibir.bind(this), 1000);
+        this.intervalID = setInterval(exibir.bind(this), 60000);
     }
     Contador.prototype.stop = function() {
         this.setPause(true);
@@ -51,6 +54,9 @@ App.Contador = (function() {
     }
     Contador.prototype.bind = function(observer) {
         this._observer = observer;
+    }
+    Contador.prototype.getStatusText = function() {
+        return this.isPaused() ? 'js-iniciar' : 'js-pausar';
     }
     return Contador;
 }());

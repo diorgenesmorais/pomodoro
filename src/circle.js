@@ -1,8 +1,9 @@
 "use strict";
 var App = App || {};
 App.Circle = (function() {
-    function Circle(circle) {
+    function Circle(circle, command) {
         this._circle = circle;
+        this._command = command;
     }
     Circle.prototype.animationCircle = function(value, max) {
         let percent = (value / max) * 5;
@@ -14,6 +15,9 @@ App.Circle = (function() {
     }
     Circle.prototype.update = function(value, max) {
         this.animationCircle(value, max);
+    }
+    Circle.prototype.status = function(status) {
+        this._command.setAttribute("class", status);
     }
     return Circle;
 }());
