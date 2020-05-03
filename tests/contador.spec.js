@@ -1,12 +1,13 @@
 const expect = require('chai').expect;
-const app = require('../src/contador');
+const Contador = require('../src/contador').Contador;
 
 describe('Teste para o contador', () => {
     const relogio = {textContent: ''};
-    let contador 
+    let contador = {};
     beforeEach(() => {
-        contador = new app.Contador(relogio);
-    });
+        contador = new Contador(relogio);
+    })
+
     it('Should exists', () => {
         expect(contador).to.exist;
     });
@@ -15,6 +16,9 @@ describe('Teste para o contador', () => {
     });
     it('Should started', () => {
         contador.activity();
-        expect(relogio.textContent).to.equals(25);
+        setTimeout(() => {
+            expect(relogio.textContent).to.equals(24);
+            contador.activity();
+        }, 1000);
     });
 });

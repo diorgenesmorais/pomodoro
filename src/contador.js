@@ -2,12 +2,11 @@
 var App = App || {};
 App.Contador = (function() {
     function Contador(relogio) {
-        App.Subject.call(this);
         this.INITIAL = 25;
         this._minutes = this.INITIAL;
         this._pause = true;
         this._relogio = relogio;
-        bind();
+        this._observers = [];
     }
     Contador.prototype = {
         getStartValue: function() {
@@ -31,20 +30,18 @@ App.Contador = (function() {
         },
         activity: function() {
             this.isPaused() ? start.call(this) : stop.call(this);
-        }
+        },
+        registerObserver: function(observable) {
+            this._observers.push(observable);
+        },
+        removerObserver: function(observable) {
+            this._observers.splice(this._observers.indexOf(observable), 1);
+        },
     }
     function exibir() {
         this.setMinutes(-1);
         notify.call(this);
         this._relogio.textContent = this.getMinuteFormatted();
-    }
-    /**
-     * Criar a herança de Subject
-     */
-    function bind() {
-        for (const elem in App.Subject.prototype) {
-            App.Contador.prototype[elem] = App.Subject.prototype[elem];
-        }
     }
     function setPause(status) {
         this._pause = status;

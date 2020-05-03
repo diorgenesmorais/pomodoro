@@ -3,7 +3,7 @@ var App = App || {};
 App.Circle = (function() {
     function Circle(circle, subject) {
         this._circle = circle;
-        subject.register(this);
+        subject.registerObserver(this);
     }
     function animationCircle(value, max) {
         let percent = (value / max) * 5;
