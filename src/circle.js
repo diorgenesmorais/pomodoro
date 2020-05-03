@@ -8,7 +8,7 @@ App.Circle = (function() {
     function animationCircle(value, max) {
         let percent = (value / max) * 5;
         if (percent < 5) {
-            this._circle.setAttribute("style", "animation-delay:-" + percent + "s");
+            this._circle.setAttribute("style", "animation-delay:-" + percent.toFixed(1) + "s");
         } else {
             this._circle.setAttribute("style", "animation-delay:5s");
         }

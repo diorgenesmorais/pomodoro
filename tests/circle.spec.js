@@ -27,4 +27,9 @@ describe('Test o module circle', () => {
         circle.update(24, 25);
         expect(target.getValue()).to.equal('animation-delay:-4.8s');
     });
+    it('Should get the value 4.6 for display', () => {
+        const circle = new Circle(target, subject);
+        circle.update(23, 25);
+        expect(target.getValue()).to.equal('animation-delay:-4.6s');
+    });
 });
