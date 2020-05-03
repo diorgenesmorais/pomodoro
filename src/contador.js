@@ -2,61 +2,83 @@
 var App = App || {};
 App.Contador = (function() {
     function Contador(relogio) {
-        this.START = 25;
-        this._minutes = this.START;
+        App.Subject.call(this);
+        this.INITIAL = 25;
+        this._minutes = this.INITIAL;
         this._pause = true;
         this._relogio = relogio;
+        bind();
     }
-    Contador.prototype.getMinutes = function() {
-        return this._minutes;
-    }
-    Contador.prototype.setMinutes = function(value) {
-        if (this._minutes === 0) {
-            value = this.START;
-            this.stop();
+    Contador.prototype = {
+        getStartValue: function() {
+            return this.INITIAL;
+        },
+        getMinutes: function() {
+            return this._minutes;
+        },
+        setMinutes: function(value) {
+            if (this._minutes === 0) {
+                value = this.INITIAL;
+                stop.call(this);
+            }
+            this._minutes += value;
+        },
+        isPaused: function() {
+            return this._pause;
+        },
+        getMinuteFormatted: function() {
+            return this.getMinutes() < 10 ? "0" + this.getMinutes() : this.getMinutes();
+        },
+        activity: function() {
+            this.isPaused() ? start.call(this) : stop.call(this);
         }
-        this._minutes += value;
-    }
-    Contador.prototype.isPaused = function() {
-        return this._pause;
-    }
-    Contador.prototype.setPause = function(status) {
-        this._pause = status;
-        if (this._observer) {
-            this._observer.status(this.getStatusText());
-        }
-    }
-    Contador.prototype.getMinuteFormatted = function() {
-        return this.getMinutes() < 10 ? "0" + this.getMinutes() : this.getMinutes();
-    }
-    Contador.prototype.decrease = function() {
-        this.setMinutes(-1);
-        if (this._observer) {
-            this._observer.update(this.getMinutes(), this.START);
-        }
-        return this.getMinuteFormatted();
     }
     function exibir() {
-        this._relogio.textContent = this.decrease();
+        this.setMinutes(-1);
+        notify.call(this);
+        this._relogio.textContent = this.getMinuteFormatted();
     }
-    Contador.prototype.start = function() {
-        this.setPause(false);
-        this.intervalID = setInterval(exibir.bind(this), 60000);
+    /**
+     * Criar a herança de Subject
+     */
+    function bind() {
+        for (const elem in App.Subject.prototype) {
+            App.Contador.prototype[elem] = App.Subject.prototype[elem];
+        }
     }
-    Contador.prototype.stop = function() {
-        this.setPause(true);
+    function setPause(status) {
+        this._pause = status;
+        changeStatus.call(this);
+    }
+    function start() {
+        setPause.call(this, false);
+        this.intervalID = setInterval(exibir.bind(this), 1000);
+    }
+    function stop() {
+        setPause.call(this, true);
         if (this.intervalID) {
             clearInterval(this.intervalID);
         }
     }
-    Contador.prototype.activity = function() {
-        this.isPaused() ? this.start() : this.stop();
-    }
-    Contador.prototype.bind = function(observer) {
-        this._observer = observer;
-    }
-    Contador.prototype.getStatusText = function() {
+    function getStatusText() {
         return this.isPaused() ? 'js-iniciar' : 'js-pausar';
+    }
+    function changeStatus() {
+        for (const obsever of this._observers) {
+            if(obsever.status) {
+                obsever.status(getStatusText.call(this));
+            }
+        }
+    }
+    /**
+     * Notificar os observadores
+     */
+    function notify() {
+        for (const obsever of this._observers) {
+            if (obsever.update) {
+                obsever.update(this.getMinutes(), this.getStartValue());
+            }
+        }
     }
     return Contador;
 }());

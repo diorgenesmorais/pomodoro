@@ -1,11 +1,11 @@
 "use strict";
 var App = App || {};
 App.Circle = (function() {
-    function Circle(circle, command) {
+    function Circle(circle, subject) {
         this._circle = circle;
-        this._command = command;
+        subject.register(this);
     }
-    Circle.prototype.animationCircle = function(value, max) {
+    function animationCircle(value, max) {
         let percent = (value / max) * 5;
         if (percent < 5) {
             this._circle.setAttribute("style", "animation-delay:-" + percent + "s");
@@ -13,11 +13,10 @@ App.Circle = (function() {
             this._circle.setAttribute("style", "animation-delay:5s");
         }
     }
-    Circle.prototype.update = function(value, max) {
-        this.animationCircle(value, max);
-    }
-    Circle.prototype.status = function(status) {
-        this._command.setAttribute("class", status);
+    Circle.prototype = {
+        update: function(value, max) {
+            animationCircle.call(this, value, max);
+        }
     }
     return Circle;
 }());
