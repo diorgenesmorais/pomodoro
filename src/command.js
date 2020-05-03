@@ -3,7 +3,7 @@ var App = App || {};
 App.Command = (function() {
     function Command(target, subject) {
         this._target = target;
-        subject.register(this);
+        subject.registerObserver(this);
     }
     Command.prototype.status = function(status) {
         this._target.setAttribute("class", status);
