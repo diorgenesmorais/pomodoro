@@ -15,11 +15,11 @@ describe('Test o module command', () => {
             }
             return Target;
         }());
-        const subject = {
-            registerObserver: (observer) => console.log(observer)
+        const data = {
+            status: 'js-iniciar'
         }
-        const command = new Command(target, subject);
-        command.status('js-iniciar');
+        const command = new Command(target);
+        command.action(data);
         expect(target.getValue()).to.equal('js-iniciar');
     });
 });

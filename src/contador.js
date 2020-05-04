@@ -6,7 +6,6 @@ App.Contador = (function() {
         this._minutes = this.INITIAL;
         this._pause = true;
         this._relogio = relogio;
-        this._observers = [];
         this._observer = observer;
     }
     Contador.prototype = {
@@ -31,13 +30,7 @@ App.Contador = (function() {
         },
         activity: function() {
             this.isPaused() ? start.call(this) : stop.call(this);
-        },
-        registerObserver: function(observable) {
-            this._observers.push(observable);
-        },
-        removerObserver: function(observable) {
-            this._observers.splice(this._observers.indexOf(observable), 1);
-        },
+        }
     }
     function exibir() {
         this.setMinutes(-1);
@@ -46,7 +39,7 @@ App.Contador = (function() {
     }
     function setPause(status) {
         this._pause = status;
-        changeStatus.call(this);
+        this._observer.publish('command', {status: getStatusText.call(this)});
     }
     function start() {
         setPause.call(this, false);
@@ -60,13 +53,6 @@ App.Contador = (function() {
     }
     function getStatusText() {
         return this.isPaused() ? 'js-iniciar' : 'js-pausar';
-    }
-    function changeStatus() {
-        for (const obsever of this._observers) {
-            if(obsever.status) {
-                obsever.status(getStatusText.call(this));
-            }
-        }
     }
     return Contador;
 }());

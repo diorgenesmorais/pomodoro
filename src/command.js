@@ -1,12 +1,14 @@
 "use strict";
 var App = App || {};
 App.Command = (function() {
-    function Command(target, subject) {
+    function Command(target) {
         this._target = target;
-        subject.registerObserver(this);
     }
-    Command.prototype.status = function(status) {
-        this._target.setAttribute("class", status);
+    Command.prototype = {
+        event: 'command',
+        action: function(data) {
+            this._target.setAttribute("class", data.status);
+        }
     }
     return Command;
 }());
