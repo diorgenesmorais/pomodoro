@@ -3,11 +3,14 @@
     const relogio = $('#tempo');
     const command = $('#command');
     const circle = $('.circle');
-    const circleControl = new App.Circle(circle);
-    const buttonControl = new App.Command(command);
     const observable = new App.Observer();
+
+    const circleControl = new App.Circle(circle);
     observable.subscribe(circleControl);
+
+    const buttonControl = new App.Command(command);
     observable.subscribe(buttonControl);
+
     const subject = new App.Contador(relogio, observable);
 
     command.addEventListener('click', () => subject.activity());
