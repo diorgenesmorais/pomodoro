@@ -1,12 +1,13 @@
 "use strict";
 var App = App || {};
 App.Contador = (function() {
-    function Contador(relogio) {
+    function Contador(relogio, observer) {
         this.INITIAL = 25;
         this._minutes = this.INITIAL;
         this._pause = true;
         this._relogio = relogio;
         this._observers = [];
+        this._observer = observer;
     }
     Contador.prototype = {
         getStartValue: function() {
@@ -40,7 +41,7 @@ App.Contador = (function() {
     }
     function exibir() {
         this.setMinutes(-1);
-        notify.call(this);
+        this._observer.publish('circle', {value: this.getMinutes(), max: this.getStartValue()})
         this._relogio.textContent = this.getMinuteFormatted();
     }
     function setPause(status) {
@@ -64,16 +65,6 @@ App.Contador = (function() {
         for (const obsever of this._observers) {
             if(obsever.status) {
                 obsever.status(getStatusText.call(this));
-            }
-        }
-    }
-    /**
-     * Notificar os observadores
-     */
-    function notify() {
-        for (const obsever of this._observers) {
-            if (obsever.update) {
-                obsever.update(this.getMinutes(), this.getStartValue());
             }
         }
     }

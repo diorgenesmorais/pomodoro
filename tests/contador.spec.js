@@ -3,9 +3,10 @@ const Contador = require('../src/contador').Contador;
 
 describe('Teste para o contador', () => {
     const relogio = {textContent: ''};
+    const observer = {publish: (event, data) => console.log(event, data)}
     let contador = {};
     beforeEach(() => {
-        contador = new Contador(relogio);
+        contador = new Contador(relogio, observer);
     })
 
     it('Should exists', () => {

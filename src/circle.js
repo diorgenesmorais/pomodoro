@@ -1,9 +1,8 @@
 "use strict";
 var App = App || {};
 App.Circle = (function() {
-    function Circle(circle, subject) {
+    function Circle(circle) {
         this._circle = circle;
-        subject.registerObserver(this);
     }
     function animationCircle(value, max) {
         let percent = (value / max) * 5;
@@ -14,7 +13,9 @@ App.Circle = (function() {
         }
     }
     Circle.prototype = {
-        update: function(value, max) {
+        event: 'circle',
+        action: function(data) {
+            const {value, max} = data;
             animationCircle.call(this, value, max);
         }
     }
