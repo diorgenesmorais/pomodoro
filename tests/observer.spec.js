@@ -3,21 +3,20 @@ const Observer = require('../src/Observer').Observer;
 
 describe('Test the Observer', () => {
     it('Should event publish', () => {
-        const observable = new (function() {
+        const result = {value: ''};
+        const observable = new (function(r) {
             function Observable() {
 
             }
             Observable.prototype = {
                 event: 'click',
-                action: (data) => this.result = data,
-                // só para obter o resultado do teste.
-                getResult: () => this.result
+                action: (data) => r.value = data,
             }
             return Observable;
-        }());
+        }(result));
         const observer = new Observer();
         observer.subscribe(observable);
         observer.publish('click', 'Tudo será publicado');
-        expect(observable.getResult()).to.equal('Tudo será publicado');
+        expect(result.value).to.equal('Tudo será publicado');
     })
 })
