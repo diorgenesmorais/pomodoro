@@ -10,6 +10,11 @@ App.Observer = (function(){
             this.subscribes.push(subscriber);
         },
     
+        unsubscribe: function(registered) {
+            const index = this.subscribes.indexOf(registered);
+            this.subscribes.splice(index, 1);
+        },
+    
         publish: function(event, data) {
             this.subscribes
                     .filter(subscriber => subscriber.event === event)
