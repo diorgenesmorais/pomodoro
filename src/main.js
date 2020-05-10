@@ -3,7 +3,7 @@
     const relogio = $('#tempo');
     const command = $('#command');
     const circle = $('.circle');
-    const observable = new App.Observer();
+    const observable = App.createObserver();
 
     const circleControl = new App.Circle(circle);
     observable.subscribe(circleControl);
