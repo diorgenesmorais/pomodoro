@@ -1,5 +1,5 @@
 "use strict";
-var App = App = {};
+var App = App || {};
 App.Observer = (function(){
     function Observer() {
         this.subscribes = [];
